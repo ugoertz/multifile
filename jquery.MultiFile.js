@@ -455,6 +455,8 @@ if (window.jQuery)(function ($) {
 					var names = $('<span/>');
 					$.each(files, function (i, file) {
 						var v = String(file.name || '' ),
+								extension = (v.match(/[^\.]+$/gi)||[''])[0],
+								include_preview = (extension.toLowerCase() == "jpg" || extension.toLowerCase() == "png") && (MultiFile.preview || $(slave).is('.with-preview')),
 								S = MultiFile.STRING,
 								n = S.label || S.file || S.name,
 								t = S.title || S.tooltip || S.selected,
@@ -463,11 +465,11 @@ if (window.jQuery)(function ($) {
 										(
 											'<span class="MultiFile-label" title="' + t + '">'+
 												'<span class="MultiFile-title">'+ n +'</span>'+
-												(MultiFile.preview || $(slave).is('.with-preview') ? p : '' )+
+												(include_preview ? p : '' )+
 											'</span>'
 										)
 										.replace(/\$(file|name)/gi, (v.match(/[^\/\\]+$/gi)||[v])[0])
-										.replace(/\$(ext|extension|type)/gi, (v.match(/[^\.]+$/gi)||[''])[0])
+										.replace(/\$(ext|extension|type)/gi, extension)
 										.replace(/\$(size)/gi, sl(file.size || 0))
 										.replace(/\$(preview)/gi, p)
 										.replace(/\$(i)/gi, i)
